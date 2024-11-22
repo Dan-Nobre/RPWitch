@@ -7,44 +7,225 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    def Sphere "Sphere_Right" (
+    reorder nameChildren = ["SkyDome", "Space", "LITE_BRITE___Density___Time_mp3", "aaaaambientes_projeto_vision__1_", "aaaaacasa_projeto_vision__1_", "DirectionalLight", "SpotLight"]
+    def "SkyDome" (
         active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @SkyDome.usdz@
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, -1.6696761, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Dome_01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
         )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
+        {
+            rel material:binding = </Root/Space> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+        }
+
+        over "Ground_01" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Space> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+        }
+
+        over "Looks"
+        {
+            over "GridMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+
+            over "GroundMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+
+            over "DomeMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def Material "Space"
+    {
+        token outputs:mtlx:surface.connect = </Root/Space/UnlitSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (403.91797, 99.50391)
+        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 9
+
+        def Shader "UnlitSurface"
+        {
+            uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+            bool inputs:applyPostProcessToneMap
+            color3f inputs:color.connect = </Root/Space/Image2D.outputs:out>
+            bool inputs:hasPremultipliedAlpha
+            float inputs:opacity
+            float inputs:opacityThreshold
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (195.6836, 83.22656)
+            int ui:nodegraph:node:stackingOrder = 11
+        }
+
+        def Shader "Image2D"
+        {
+            uniform token info:id = "ND_RealityKitTexture2D_color3"
+            float inputs:bias
+            string inputs:border_color
+            float inputs:dynamic_min_lod_clamp
+            asset inputs:file = @NightSkyHDRI004_2K-HDR.exr@
+            string inputs:mag_filter
+            int inputs:max_anisotropy
+            float inputs:max_lod_clamp
+            string inputs:min_filter
+            float inputs:min_lod_clamp
+            string inputs:mip_filter
+            bool inputs:no_flip_v = 1
+            int2 inputs:offset
+            float2 inputs:texcoord
+            string inputs:v_wrap_mode
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-97.23828, 11.402344)
+            int ui:nodegraph:node:stackingOrder = 16
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:min_filter"]
+        }
+    }
+
+    def "aaaaambientes_projeto_vision__1_" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-1.5707964, 0, 0)
+        }
+        prepend references = @aaaaambientes_projeto_vision (1).usda@
+    )
+    {
+        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0.5, 1.5, -1.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Cone_010"
+        {
+            quatf xformOp:orient = (-0.00034647726, 0, 0, 0.99999994)
+            float3 xformOp:scale = (0.18563707, 0.18563707, 0.27855596)
+            double3 xformOp:translate = (-3.849604845046997, -2.5352773666381836, 0.6471948623657227)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Cone_025"
+        {
+            quatf xformOp:orient = (0.3097405, 0, 0, 0.9508211)
+            float3 xformOp:scale = (0.18563709, 0.18563709, 0.27855596)
+            double3 xformOp:translate = (3.6135826110839844, -4.829498767852783, 0.6558104753494263)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Cone_031"
+        {
+            quatf xformOp:orient = (0.6331342, 0, 0, -0.774042)
+            float3 xformOp:scale = (0.18563706, 0.18563706, 0.27855596)
+            double3 xformOp:translate = (-5.036013603210449, 2.204533815383911, 0.6529269218444824)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Mball_011" (
+            active = false
+        )
+        {
+        }
+
+        over "Vert_016"
+        {
+            quatf xformOp:orient = (-0.15290827, 0, 0, 0.98824036)
+            float3 xformOp:scale = (0.16826715, 0.16826715, 0.16826716)
+            double3 xformOp:translate = (-5.950666904449463, 2.4146437644958496, 0.2672897279262543)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Sphere_071"
+        {
+            quatf xformOp:orient = (0.7344519, 0.036615208, 0.0036817994, -0.6776624)
+            float3 xformOp:scale = (0.21813375, 0.21813376, 0.3032834)
+            double3 xformOp:translate = (3.5350680351257324, 4.528948783874512, 0.5128800868988037)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Sphere_076"
+        {
+            quatf xformOp:orient = (0.8689497, 0, 0, -0.49490035)
+            float3 xformOp:scale = (0.18123947, 0.18123947, 0.25198728)
+            double3 xformOp:translate = (3.1869592666625977, -3.8263895511627197, 0.20241212844848633)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        over "Sphere_077"
+        {
+            quatf xformOp:orient = (0.8689497, 0, 0, -0.49490035)
+            float3 xformOp:scale = (0.14355142, 0.14355142, 0.19958751)
+            double3 xformOp:translate = (3.2243871688842773, -4.219394207000732, 0.19228948652744293)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def "aaaaacasa_projeto_vision__1_" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-4.712389, 4.712389, 0)
+        }
+        prepend references = @aaaaacasa_projeto_vision (1).usda@
+    )
+    {
+        quatf xformOp:orient = (-0.5, 0.5, 0.5, 0.5)
+        float3 xformOp:scale = (1.5213358, 1.5213358, 1.5213358)
+        float3 xformOp:translate = (1.860106, 0.15663838, -2.5677195)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 
-    def Sphere "Sphere_Left" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-    )
+    def Xform "DirectionalLight"
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.5, 1.5, -1.5)
+        float3 xformOp:translate = (0, 2.504873, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            token info:id = "RealityKit.DirectionalLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
     }
 
-    def "GridMaterial" (
-        active = true
-        prepend references = @Materials/GridMaterial.usda@
+    def Xform "SpotLight" (
+        customData = {
+            float3 rotationEulerHint = (-0.21312869, 5.043002e-8, -5.3944773e-9)
+        }
     )
     {
-        float3 xformOp:scale = (1, 1, 1)
+        quatf xformOp:orient = (0.99432737, -0.10636277, 2.535886e-8, 0)
+        float3 xformOp:translate = (0, 3.2794135, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "SpotLight"
+        {
+            token info:id = "RealityKit.SpotLight"
+            float intensity = 8740.94
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
     }
 }
 

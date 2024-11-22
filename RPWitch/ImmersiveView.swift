@@ -24,7 +24,7 @@ struct ImmersiveView: View {
     }
 }
 
-#Preview(immersionStyle: .progressive) {
+#Preview(immersionStyle: .mixed) {
     ImmersiveView()
         .environment(AppModel())
 }
